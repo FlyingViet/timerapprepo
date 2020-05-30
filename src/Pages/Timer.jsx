@@ -1,5 +1,6 @@
 import React from 'react';
 import Stopwatch from '../Components/Stopwatch';
+import Countdown from '../Components/Countdown';
 import _ from 'lodash';
 import "./timer.css";
 
@@ -15,7 +16,8 @@ export default class Timer extends React.Component {
         console.log(this.state);
         var timers = this.state.timers;
         timers.push(<div className="timerApp" key={timers.length}>
-            <Stopwatch key={timers.length} num={timers.length} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Stopwatch>
+            {/* <Stopwatch key={timers.length} num={timers.length} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Stopwatch> */}
+            <Countdown key={timers.length} num={timers.length} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Countdown>
         </div>)
         this.setState({timers: timers});
     }
