@@ -56,7 +56,7 @@ export default class Stopwatch extends React.Component {
                 <div className="Stopwatch-display">
                     {hours} : {minutes} : {seconds} : {centiseconds}
                 </div>
-                {this.state.timerOn === false && this.state.timerTime === 0 && (
+                {/* {this.state.timerOn === false && this.state.timerTime === 0 && (
                     <button onClick={this.startTimer}>Start</button>
                     )}
                     {this.state.timerOn === true && (
@@ -67,7 +67,10 @@ export default class Stopwatch extends React.Component {
                     )}
                     {this.state.timerOn === false && this.state.timerTime > 0 && (
                     <button onClick={this.resetTimer}>Reset</button>
-                    )}
+                    )} */}
+                    <button onClick={this.startTimer}>Start</button>
+                    <button onClick={this.stopTimer}>Stop</button>
+                    <button onClick={this.resetTimer}>Reset</button>
                 <button onClick={this.remove}>Remove</button>
             </div>
             
