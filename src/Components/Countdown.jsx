@@ -26,6 +26,16 @@ export default class Countdown extends Component {
             this.setState({
               timerTime: newTime
             });
+            if(((newTime / 60000) % 60) % 10 === 0){
+              swal.fire({
+                title: `${this.props.name} needs a tap`,
+                confirmButtonText: 'OK',
+                onOpen: () => {
+                  var sound = new Audio('http://limonte.github.io/mp3/zippi.mp3');
+                  sound.play();
+                }
+              });
+            }
           } else {
             clearInterval(this.timer);
             this.setState({ timerOn: false });
