@@ -12,6 +12,9 @@ export default class Stopwatch extends React.Component {
     };
 
     startTimer = () => {
+        if(this.state.timerOn){
+            return;
+        }
         this.setState({
           timerOn: true,
           timerTime: this.state.timerTime,
@@ -25,18 +28,22 @@ export default class Stopwatch extends React.Component {
     };
 
     stopTimer = () => {
+        if(!this.state.timerOn){
+            return;
+        }
         this.setState({ timerOn: false });
         clearInterval(this.timer);
       };
       resetTimer = () => {
         this.setState({
+          timerOn: false,
           timerStart: 0,
           timerTime: 0
         });
+        clearInterval(this.timer);
     };
 
     remove = () => {
-        //console.log(this.props.num);
         this.props.remove(this.props.num);
     }
     render() {
