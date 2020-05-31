@@ -9,17 +9,20 @@ export default class Timer extends React.Component {
         timers: [],
         name: '',
         map: '',
-        channel:''
+        channel:'',
+        key: 0
     }
 
     onAdd = () => {
         console.log(this.state);
         var timers = this.state.timers;
-        timers.push(<div className="timerApp" key={timers.length}>
+        var key = this.state.key;
+        timers.push(<div className="timerApp" key={key}>
             {/* <Stopwatch key={timers.length} num={timers.length} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Stopwatch> */}
-            <Countdown key={timers.length} num={timers.length} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Countdown>
+            <Countdown key={key} num={key} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Countdown>
         </div>)
-        this.setState({timers: timers});
+        key++;
+        this.setState({timers: timers, key: key});
     }
     
     handleNameChange = (e) => {
