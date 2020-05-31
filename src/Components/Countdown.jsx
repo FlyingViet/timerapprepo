@@ -92,7 +92,6 @@ export default class Countdown extends Component {
             <label type='text' className="label">Map: {this.props.map}</label>
             <label type='text' className="label">Channel: {this.props.channel}</label>
         </div>
-        <div className="Countdown-header">Countdown</div>
         <div className="Countdown-label">Hours : Minutes : Seconds</div>
         <div className="Countdown-display">
         <button onClick={() => this.adjustTimer("incHours")}>&#8679;</button>

@@ -32,11 +32,11 @@
 }
 .Countdown,
 .Stopwatch {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
   border: 2px solid grey;
   border-radius: 4px;
-  padding: 10px;
+  padding: 5px;
   width: 600px;
   background-color: rgb(41, 53, 63);
   box-shadow: 0 3px 6px rgb(12, 12, 12);
@@ -48,7 +48,7 @@
 
 .Countdown-header,
 .Stopwatch-header {
-  font-size: 40px;
+  font-size: 30px;
   font-weight: bold;
   color: white;
 }
@@ -76,7 +76,7 @@ button:hover {
   height: 50px;
   font-size: 20px;
   width: 30%;
-  padding: 20px;
+  padding: 5px;
 }
 
 .Stopwatch-display {
@@ -87,7 +87,7 @@ button:hover {
 }
 .Countdown-display {
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .Countdown-display button {
   margin: 0 15px;
