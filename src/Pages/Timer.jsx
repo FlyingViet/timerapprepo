@@ -1,8 +1,10 @@
 import React from 'react';
-import Stopwatch from '../Components/Stopwatch';
 import Countdown from '../Components/Countdown';
 import _ from 'lodash';
 import "./timer.css";
+import "./../../node_modules/react-grid-layout/css/styles.css";
+import "./../../node_modules/react-resizable/css/styles.css";
+import GridLayout from 'react-grid-layout';
 
 export default class Timer extends React.Component {
     state = {
@@ -18,7 +20,6 @@ export default class Timer extends React.Component {
         var timers = this.state.timers;
         var key = this.state.key;
         timers.push(<div className="timerApp" key={key}>
-            {/* <Stopwatch key={timers.length} num={timers.length} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Stopwatch> */}
             <Countdown key={key} num={key} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Countdown>
         </div>)
         key++;
@@ -48,15 +49,15 @@ export default class Timer extends React.Component {
     render(){
         return(
             <div >
-                <center>
-                    <input type='text' placeholder='Name' className="label" onChange={e => this.handleNameChange(e)}></input>
-                    <input type='text' placeholder='Map' className="label" onChange={e => this.handleMapChange(e)}></input>
-                    <input type='text' placeholder='Channel' className="label" onChange={e => this.handleChannelChange(e)}></input>
-                    <button onClick={this.onAdd}>Add</button>
+                <input type='text' placeholder='Name' className="label" onChange={e => this.handleNameChange(e)}></input>
+                <input type='text' placeholder='Map' className="label" onChange={e => this.handleMapChange(e)}></input>
+                <input type='text' placeholder='Channel' className="label" onChange={e => this.handleChannelChange(e)}></input>
+                <button onClick={this.onAdd}>Add</button>
+                <GridLayout>
                     {_.map(this.state.timers, timer => {
                         return timer;
                     })}
-                </center>
+                </GridLayout>
             </div>
         );
     }

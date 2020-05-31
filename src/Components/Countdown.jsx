@@ -4,10 +4,6 @@ import * as workerTimers from 'worker-timers';
 import "../App.css";
 
 export default class Countdown extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     state = {
         timerOn: false,
         timerStart: 0,
@@ -54,7 +50,11 @@ export default class Countdown extends Component {
         workerTimers.clearInterval(this.timer);
         this.setState({ timerOn: false });
       };
+      
+      getTime = () => {
 
+      }
+      
       adjustTimer = input => {
         const { timerTime, timerOn } = this.state;
         const max = 216000000;
@@ -86,7 +86,8 @@ export default class Countdown extends Component {
     let hours = ("0" + Math.floor((timerTime / 3600000) % 60)).slice(-2);
 
     return (
-      <div className="Countdown">
+      <center>
+              <div className="Countdown">
         <div className="Stopwatch-header">
             <label type='text' className="label">Name: {this.props.name}</label>
             <label type='text' className="label">Map: {this.props.map}</label>
@@ -105,26 +106,11 @@ export default class Countdown extends Component {
         <button onClick={() => this.adjustTimer("decMinutes")}>&#8681;</button>
         <button onClick={() => this.adjustTimer("decSeconds")}>&#8681;</button>
         </div>
-{/* 
-            {timerOn === false &&
-            (timerStart === 0 || timerTime === timerStart) && (
-                <button onClick={this.startTimer}>Start</button>
-            )}
-            {timerOn === true && timerTime >= 1000 && (
-            <button onClick={this.stopTimer}>Stop</button>
-            )}
-            {timerOn === false &&
-            (timerStart !== 0 && timerStart !== timerTime && timerTime !== 0) && (
-                <button onClick={this.startTimer}>Resume</button>
-            )}
-            {(timerOn === false || timerTime < 1000) &&
-            (timerStart !== timerTime && timerStart > 0) && (
-                <button onClick={this.resetTimer}>Reset</button>
-            )} */}
-            <button onClick={this.startTimer}>Start</button>
-            <button onClick={this.stopTimer}>Stop</button>
-            <button onClick={this.remove}>Remove</button>
+          <button onClick={this.startTimer}>Start</button>
+          <button onClick={this.stopTimer}>Stop</button>
+          <button onClick={this.remove}>Remove</button>
       </div>
+      </center>
     );
   }
 }
