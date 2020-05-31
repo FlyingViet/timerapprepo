@@ -27,7 +27,7 @@ export default class Countdown extends Component {
             this.setState({
               timerTime: newTime
             });
-            if(((newTime / 60000) % 60) % 10 === 0){
+            if(((newTime / 60000) % 60) % 9.85 === 0){
               swal.fire({
                 title: `${this.props.name} needs a tap`,
                 confirmButtonText: 'OK',
@@ -80,7 +80,7 @@ export default class Countdown extends Component {
     }
 
   render() {
-    const { timerTime, timerStart, timerOn } = this.state;
+    const { timerTime } = this.state;
     let seconds = ("0" + (Math.floor((timerTime / 1000) % 60) % 60)).slice(-2);
     let minutes = ("0" + Math.floor((timerTime / 60000) % 60)).slice(-2);
     let hours = ("0" + Math.floor((timerTime / 3600000) % 60)).slice(-2);
