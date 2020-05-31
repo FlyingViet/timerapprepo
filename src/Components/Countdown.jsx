@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import swal from 'sweetalert2';
+import * as workerTimers from 'worker-timers';
 import "../App.css";
 
 export default class Countdown extends Component {
@@ -20,7 +21,7 @@ export default class Countdown extends Component {
           timerTime: this.state.timerTime,
           timerStart: this.state.timerTime
         });
-        this.timer = setInterval(() => {
+        this.timer = workerTimers.setInterval(() => {
           const newTime = this.state.timerTime - 10;
           if (newTime >= 0) {
             this.setState({
@@ -37,7 +38,7 @@ export default class Countdown extends Component {
               });
             }
           } else {
-            clearInterval(this.timer);
+            workerTimers.clearInterval(this.timer);
             this.setState({ timerOn: false });
             swal.fire({
               title: `${this.props.name} has finished`,
@@ -50,7 +51,7 @@ export default class Countdown extends Component {
 
       stopTimer = () => {
         if(!this.state.timerOn) return;
-        clearInterval(this.timer);
+        workerTimers.clearInterval(this.timer);
         this.setState({ timerOn: false });
       };
 
