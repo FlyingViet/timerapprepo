@@ -63,7 +63,7 @@ export default class Timer extends React.Component {
                     preventCollision={true}
                     verticalCompact={true}
                     width={4000}
-                    rowHeight={255}
+                    rowHeight={150}
                 >  
                     {_.map(this.state.timers, timer => {
                         return timer;
