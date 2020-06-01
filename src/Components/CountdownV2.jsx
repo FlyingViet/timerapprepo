@@ -16,10 +16,14 @@ export default class CountdownV2 extends Component {
         this.setState({
           timerOn: true,
           timerTime: this.state.timerTime,
-          timerStart: this.state.timerTime
+          timerStart: this.state.timerTime,
+          timerEnd: Date.now() + this.state.timerTime
         });
         this.timer = workerTimers.setInterval(() => {
-          const newTime = this.state.timerTime - 10;
+          //const newTime = this.state.timerTime - 10;
+          const newTime = this.state.timerEnd - Date.now();
+          //console.log(newTime, realTime);
+          //console.log(newTime);
           if (newTime >= 0) {
             this.setState({
               timerTime: newTime
@@ -43,7 +47,7 @@ export default class CountdownV2 extends Component {
               confirmButtonText: 'OK'
             });
           }
-        }, 9);
+        }, 1);
       };
 
       stopTimer = () => {
