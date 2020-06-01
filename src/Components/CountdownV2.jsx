@@ -19,7 +19,8 @@ export default class CountdownV2 extends Component {
         var rule = new cron.RecurrenceRule();
         rule.seconds = 10;
         rule.minutes = 1;
-        this.cron = workerTimers.setInterval(() => {
+        if(this.props.notify){
+          this.cron = workerTimers.setInterval(() => {
             swal.fire({
                 title: `${this.props.name} needs a tap`,
                 confirmButtonText: 'OK',
@@ -29,6 +30,7 @@ export default class CountdownV2 extends Component {
                 }
               });
         }, 600000 - parseInt(this.props.delay, 10)*1000);
+        }
         this.setState({
           timerOn: true,
           timerTime: this.state.timerTime,
