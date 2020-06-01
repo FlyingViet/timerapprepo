@@ -79,6 +79,14 @@ button:hover {
   padding: 5px;
 }
 
+.stopLabel {
+  display: inline-block;
+  height: 30px;
+  font-size: 20px;
+  width: 30%;
+  padding: 5px;
+}
+
 .Stopwatch-display {
   padding: 40px 0;
   font-size: 48px;

@@ -37,24 +37,12 @@ export default class CountdownV2 extends Component {
         });
 
         this.timer = workerTimers.setInterval(() => {
-          //const newTime = this.state.timerTime - 10;
           const newTime = this.state.timerEnd - Date.now();
 
           if (newTime >= 0) {
             this.setState({
               timerTime: newTime
             });
-            // var minutes = ((newTime / 60000) % 60);
-            // if( (minutes + 1) % 9.85 === 0 ||  (minutes) % 9.85 === 0 ||  (minutes - 1) % 9.85 === 0){
-            //   swal.fire({
-            //     title: `${this.props.name} needs a tap`,
-            //     confirmButtonText: 'OK',
-            //     onOpen: () => {
-            //       var sound = new Audio('http://limonte.github.io/mp3/zippi.mp3');
-            //       sound.play();
-            //     }
-            //   });
-            // }
           } else {
             workerTimers.clearInterval(this.timer);
             workerTimers.clearInterval(this.cron);
@@ -125,9 +113,9 @@ export default class CountdownV2 extends Component {
       return(
         <div>
             <div className="Stopwatch-header">
-            <label type='text' className="label">{this.props.name}</label>
-            <label type='text' className="label">{this.props.map}</label>
-            <label type='text' className="label">{this.props.channel}</label>
+            <label type='text' className="stopLabel">{this.props.name}</label>
+            <label type='text' className="stopLabel">{this.props.map}</label>
+            <label type='text' className="stopLabel">{this.props.channel}</label>
         </div>
         </div>
       )

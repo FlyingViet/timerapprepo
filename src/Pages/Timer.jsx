@@ -62,6 +62,7 @@ export default class Timer extends React.Component {
                     className="layout"
                     preventCollision={true}
                     verticalCompact={true}
+                    
                 >  
                     {_.map(this.state.timers, timer => {
                         return timer;
