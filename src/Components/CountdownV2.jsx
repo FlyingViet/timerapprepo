@@ -44,7 +44,7 @@ export default class CountdownV2 extends Component {
               confirmButtonText: 'OK'
             });
           }
-        }, 9);
+        }, 10);
       };
 
       stopTimer = () => {
