@@ -19,7 +19,7 @@ export default class Timer extends React.Component {
         var timers = this.state.timers;
         var key = this.state.key;
         timers.push(<div className="timerApp" key={key}>
-            <Countdown key={key} num={key} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Countdown>
+            <Countdown key={key} num={key} name={this.state.name} map={this.state.map} channel={this.state.channel} delay={20} remove={this.onRemove}></Countdown>
         </div>)
         key++;
         this.setState({timers: timers, key: key});

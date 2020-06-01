@@ -19,7 +19,7 @@ export default class CountdownV2 extends Component {
         var rule = new cron.RecurrenceRule();
         rule.seconds = 10;
         rule.minutes = 1;
-        workerTimers.setInterval(() => {
+        this.cron = workerTimers.setInterval(() => {
             swal.fire({
                 title: `${this.props.name} needs a tap`,
                 confirmButtonText: 'OK',
@@ -28,7 +28,7 @@ export default class CountdownV2 extends Component {
                   sound.play();
                 }
               });
-        }, 580000)
+        }, 600000 - parseInt(this.props.delay, 10)*1000);
         this.setState({
           timerOn: true,
           timerTime: this.state.timerTime,
@@ -57,6 +57,7 @@ export default class CountdownV2 extends Component {
             // }
           } else {
             workerTimers.clearInterval(this.timer);
+            workerTimers.clearInterval(this.cron);
             this.setState({ timerOn: false });
             swal.fire({
               title: `${this.props.name} has finished`,
@@ -70,6 +71,7 @@ export default class CountdownV2 extends Component {
       stopTimer = () => {
         if(!this.state.timerOn) return;
         workerTimers.clearInterval(this.timer);
+        workerTimers.clearInterval(this.cron);
         this.setState({ timerOn: false });
       };
       
@@ -95,6 +97,8 @@ export default class CountdownV2 extends Component {
 
       remove = () => {
         this.props.remove(this.props.num);
+        workerTimers.clearInterval(this.timer);
+        workerTimers.clearInterval(this.cron);
         this.setState({timerOn: false})
     }
     renderPt1 = () => {
