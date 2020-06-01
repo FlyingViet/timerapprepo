@@ -24,6 +24,7 @@ export default class CountdownV2 extends Component {
             swal.fire({
                 title: `${this.props.name} needs a tap`,
                 confirmButtonText: 'OK',
+                timer: 2000,
                 onOpen: () => {
                   var sound = new Audio('http://limonte.github.io/mp3/zippi.mp3');
                   sound.play();
