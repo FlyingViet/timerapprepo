@@ -25,6 +25,7 @@ export default class CountdownV2 extends Component {
                 title: `${this.props.name} needs a tap`,
                 confirmButtonText: 'OK',
                 timer: 2000,
+                imageUrl: 'https://i.imgur.com/acowcCb.png',
                 onOpen: () => {
                   var sound = new Audio('http://limonte.github.io/mp3/zippi.mp3');
                   sound.play();
