@@ -28,7 +28,7 @@ export default class CountdownV2 extends Component {
                   sound.play();
                 }
               });
-        }, 570000)
+        }, 580000)
         this.setState({
           timerOn: true,
           timerTime: this.state.timerTime,
