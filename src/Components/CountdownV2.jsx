@@ -28,7 +28,8 @@ export default class CountdownV2 extends Component {
             this.setState({
               timerTime: newTime
             });
-            if(((newTime / 60000) % 60) % 9.85 === 0){
+            var minutes = ((newTime / 60000) % 60);
+            if( (minutes + 1) % 9.85 === 0 ||  (minutes) % 9.85 === 0 ||  (minutes - 1) % 9.85 === 0){
               swal.fire({
                 title: `${this.props.name} needs a tap`,
                 confirmButtonText: 'OK',
@@ -56,10 +57,6 @@ export default class CountdownV2 extends Component {
         this.setState({ timerOn: false });
       };
       
-      getTime = () => {
-
-      }
-      
       adjustTimer = input => {
         const { timerTime, timerOn } = this.state;
         const max = 216000000;
@@ -82,6 +79,7 @@ export default class CountdownV2 extends Component {
 
       remove = () => {
         this.props.remove(this.props.num);
+        this.setState({timerOn: false})
     }
     renderPt1 = () => {
       return(
