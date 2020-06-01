@@ -98,6 +98,17 @@ export default class Countdown extends Component {
         </div>
       );
     }
+    renderHeader = () => {
+      return(
+        <div>
+            <div className="Stopwatch-header">
+            <label type='text' className="label">{this.props.name}</label>
+            <label type='text' className="label">{this.props.map}</label>
+            <label type='text' className="label">{this.props.channel}</label>
+        </div>
+        </div>
+      )
+    }
   render() {
     const { timerTime } = this.state;
     let seconds = ("0" + (Math.floor((timerTime / 1000) % 60) % 60)).slice(-2);
@@ -107,16 +118,15 @@ export default class Countdown extends Component {
     return (
       <center>
         <div className="Countdown">
-        <div className="Stopwatch-header">
-            <label type='text' className="label">{this.props.name}</label>
-            <label type='text' className="label">{this.props.map}</label>
-            <label type='text' className="label">{this.props.channel}</label>
-        </div>
-        
+
+        {!this.props.name && !this.props.map && !this.props.channel ? null : this.renderHeader()}
+
         <div className="Countdown-display">
+
         {this.state.timerOn ? null : this.renderPt1()}
+        
         <div className="Countdown-time">
-        {hours} : {minutes} : {seconds}
+          {hours} : {minutes} : {seconds}
         </div>
 
         {this.state.timerOn ? null : this.renderPt2()}

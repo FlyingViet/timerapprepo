@@ -12,14 +12,14 @@ export default class Timer extends React.Component {
         name: '',
         map: '',
         channel:'',
-        key: 0
+        key: 0,
     }
 
     onAdd = () => {
         console.log(this.state);
         var timers = this.state.timers;
         var key = this.state.key;
-        timers.push(<div className="timerApp" key={key}>
+        timers.push(<div className="timerApp" key={key} data-grid={{x:0, y: 0, w: 0, h:0}}>
             <Countdown key={key} num={key} name={this.state.name} map={this.state.map} channel={this.state.channel} remove={this.onRemove}></Countdown>
         </div>)
         key++;
@@ -57,7 +57,7 @@ export default class Timer extends React.Component {
                     className="layout"
                     preventCollision={true}
                     verticalCompact={true}
-                    
+                    cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}
                 >  
                     {_.map(this.state.timers, timer => {
                         return timer;
