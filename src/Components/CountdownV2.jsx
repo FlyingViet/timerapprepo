@@ -23,7 +23,7 @@ export default class CountdownV2 extends Component {
           //const newTime = this.state.timerTime - 10;
           const newTime = this.state.timerEnd - Date.now();
           //console.log(newTime, realTime);
-          //console.log(newTime);
+          console.log(newTime);
           if (newTime >= 0) {
             this.setState({
               timerTime: newTime
