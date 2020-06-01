@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import swal from 'sweetalert2';
+import cron from 'node-schedule';
 import * as workerTimers from 'worker-timers';
 import "../App.css";
+
+
 
 export default class CountdownV2 extends Component {
     state = {
@@ -13,24 +16,11 @@ export default class CountdownV2 extends Component {
 
     startTimer = () => {
         if(this.state.timerOn) return;
-        this.setState({
-          timerOn: true,
-          timerTime: this.state.timerTime,
-          timerStart: this.state.timerTime,
-          timerEnd: Date.now() + this.state.timerTime
-        });
-        this.timer = workerTimers.setInterval(() => {
-          //const newTime = this.state.timerTime - 10;
-          const newTime = this.state.timerEnd - Date.now();
-          //console.log(newTime, realTime);
-          console.log(newTime);
-          if (newTime >= 0) {
-            this.setState({
-              timerTime: newTime
-            });
-            var minutes = ((newTime / 60000) % 60);
-            if( (minutes + 1) % 9.85 === 0 ||  (minutes) % 9.85 === 0 ||  (minutes - 1) % 9.85 === 0){
-              swal.fire({
+        var rule = new cron.RecurrenceRule();
+        rule.seconds = 10;
+        rule.minutes = 1;
+        workerTimers.setInterval(() => {
+            swal.fire({
                 title: `${this.props.name} needs a tap`,
                 confirmButtonText: 'OK',
                 onOpen: () => {
@@ -38,7 +28,33 @@ export default class CountdownV2 extends Component {
                   sound.play();
                 }
               });
-            }
+        }, 570000)
+        this.setState({
+          timerOn: true,
+          timerTime: this.state.timerTime,
+          timerStart: this.state.timerTime,
+          timerEnd: Date.now() + this.state.timerTime
+        });
+
+        this.timer = workerTimers.setInterval(() => {
+          //const newTime = this.state.timerTime - 10;
+          const newTime = this.state.timerEnd - Date.now();
+
+          if (newTime >= 0) {
+            this.setState({
+              timerTime: newTime
+            });
+            // var minutes = ((newTime / 60000) % 60);
+            // if( (minutes + 1) % 9.85 === 0 ||  (minutes) % 9.85 === 0 ||  (minutes - 1) % 9.85 === 0){
+            //   swal.fire({
+            //     title: `${this.props.name} needs a tap`,
+            //     confirmButtonText: 'OK',
+            //     onOpen: () => {
+            //       var sound = new Audio('http://limonte.github.io/mp3/zippi.mp3');
+            //       sound.play();
+            //     }
+            //   });
+            // }
           } else {
             workerTimers.clearInterval(this.timer);
             this.setState({ timerOn: false });
