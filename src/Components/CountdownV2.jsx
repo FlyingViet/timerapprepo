@@ -16,11 +16,10 @@ export default class CountdownV2 extends Component {
         this.setState({
           timerOn: true,
           timerTime: this.state.timerTime,
-          timerStart: this.state.timerTime,
-          timerEnd: this.state.timerTime + Date.now()
+          timerStart: this.state.timerTime
         });
         this.timer = workerTimers.setInterval(() => {
-          const newTime = this.state.timerEnd - Date.now();
+          const newTime = this.state.timerTime - 10;
           if (newTime >= 0) {
             this.setState({
               timerTime: newTime
@@ -44,13 +43,13 @@ export default class CountdownV2 extends Component {
               confirmButtonText: 'OK'
             });
           }
-        }, 10);
+        }, 9);
       };
 
       stopTimer = () => {
         if(!this.state.timerOn) return;
         workerTimers.clearInterval(this.timer);
-        this.setState({ timerOn: false, timerEnd: this.state.timerTime + Date.now() });
+        this.setState({ timerOn: false });
       };
       
       getTime = () => {
