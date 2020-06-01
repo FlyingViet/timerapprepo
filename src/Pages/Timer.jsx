@@ -13,13 +13,14 @@ export default class Timer extends React.Component {
         map: '',
         channel:'',
         key: 0,
+        delay: '20'
     }
 
     onAdd = () => {
         var timers = this.state.timers;
         var key = this.state.key;
         timers.push(<div className="timerApp" key={key}>
-            <Countdown key={key} num={key} name={this.state.name} map={this.state.map} channel={this.state.channel} delay={20} remove={this.onRemove}></Countdown>
+            <Countdown key={key} num={key} name={this.state.name} map={this.state.map} channel={this.state.channel} delay={this.state.delay} remove={this.onRemove}></Countdown>
         </div>)
         key++;
         this.setState({timers: timers, key: key});
@@ -37,6 +38,10 @@ export default class Timer extends React.Component {
         this.setState({ channel: e.target.value });
     }
 
+    handleDelayChange = (e) => {
+        this.setState({delay: e.target.value});
+    }
+
     onRemove = (key) => {
         var timers = this.state.timers;
         _.remove(timers, timer => {
@@ -51,6 +56,7 @@ export default class Timer extends React.Component {
                 <input type='text' placeholder='Name' className="label" onChange={e => this.handleNameChange(e)}></input>
                 <input type='text' placeholder='Map' className="label" onChange={e => this.handleMapChange(e)}></input>
                 <input type='text' placeholder='Channel' className="label" onChange={e => this.handleChannelChange(e)}></input>
+                <input type='text' placeholder='Seconds before 10 Minutes' className="label" onChange={e => this.handleDelayChange(e)}></input>
                 <button onClick={this.onAdd}>Add</button>
                 <GridLayout
                     className="layout"
