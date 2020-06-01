@@ -1,5 +1,5 @@
 import React from 'react';
-import Countdown from '../Components/Countdown';
+import Countdown from '../Components/CountdownV2';
 import _ from 'lodash';
 import "./timer.css";
 import "./../../node_modules/react-grid-layout/css/styles.css";
