@@ -53,7 +53,12 @@ export default class Timer extends React.Component {
                 <input type='text' placeholder='Map' className="label" onChange={e => this.handleMapChange(e)}></input>
                 <input type='text' placeholder='Channel' className="label" onChange={e => this.handleChannelChange(e)}></input>
                 <button onClick={this.onAdd}>Add</button>
-                <GridLayout>
+                <GridLayout
+                    className="layout"
+                    preventCollision={true}
+                    verticalCompact={true}
+                    
+                >  
                     {_.map(this.state.timers, timer => {
                         return timer;
                     })}

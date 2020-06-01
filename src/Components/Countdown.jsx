@@ -78,7 +78,26 @@ export default class Countdown extends Component {
       remove = () => {
         this.props.remove(this.props.num);
     }
+    renderPt1 = () => {
+      return(
+        <div>
+          <div className="Countdown-label">Hours : Minutes : Seconds</div>
+        <button onClick={() => this.adjustTimer("incHours")}>&#8679;</button>
+        <button onClick={() => this.adjustTimer("incMinutes")}>&#8679;</button>
+        <button onClick={() => this.adjustTimer("incSeconds")}>&#8679;</button>
+      </div>
+      );
+    }
 
+    renderPt2 = () => {
+      return(
+        <div>
+          <button onClick={() => this.adjustTimer("decHours")}>&#8681;</button>
+          <button onClick={() => this.adjustTimer("decMinutes")}>&#8681;</button>
+          <button onClick={() => this.adjustTimer("decSeconds")}>&#8681;</button>
+        </div>
+      );
+    }
   render() {
     const { timerTime } = this.state;
     let seconds = ("0" + (Math.floor((timerTime / 1000) % 60) % 60)).slice(-2);
@@ -87,24 +106,20 @@ export default class Countdown extends Component {
 
     return (
       <center>
-              <div className="Countdown">
+        <div className="Countdown">
         <div className="Stopwatch-header">
-            <label type='text' className="label">Name: {this.props.name}</label>
-            <label type='text' className="label">Map: {this.props.map}</label>
-            <label type='text' className="label">Channel: {this.props.channel}</label>
+            <label type='text' className="label">{this.props.name}</label>
+            <label type='text' className="label">{this.props.map}</label>
+            <label type='text' className="label">{this.props.channel}</label>
         </div>
-        <div className="Countdown-label">Hours : Minutes : Seconds</div>
+        
         <div className="Countdown-display">
-        <button onClick={() => this.adjustTimer("incHours")}>&#8679;</button>
-        <button onClick={() => this.adjustTimer("incMinutes")}>&#8679;</button>
-        <button onClick={() => this.adjustTimer("incSeconds")}>&#8679;</button>
+        {this.state.timerOn ? null : this.renderPt1()}
         <div className="Countdown-time">
         {hours} : {minutes} : {seconds}
         </div>
 
-        <button onClick={() => this.adjustTimer("decHours")}>&#8681;</button>
-        <button onClick={() => this.adjustTimer("decMinutes")}>&#8681;</button>
-        <button onClick={() => this.adjustTimer("decSeconds")}>&#8681;</button>
+        {this.state.timerOn ? null : this.renderPt2()}
         </div>
           <button onClick={this.startTimer}>Start</button>
           <button onClick={this.stopTimer}>Stop</button>
