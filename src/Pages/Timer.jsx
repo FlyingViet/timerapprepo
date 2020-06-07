@@ -59,9 +59,9 @@ export default class Timer extends React.Component {
     render(){
         return(
             <div >
-                <input type='text' placeholder='Name' className="label" onChange={e => this.handleNameChange(e)}></input>
+                <input type='text' placeholder='Name' className="label" maxLength={12} onChange={e => this.handleNameChange(e)}></input>
                 <input type='text' placeholder='Map' className="label" onChange={e => this.handleMapChange(e)}></input>
-                <input type='text' placeholder='Channel' className="label" onChange={e => this.handleChannelChange(e)}></input>
+                <input type='text' placeholder='Channel' className="label" maxLength={2} onChange={e => this.handleChannelChange(e)}></input>
                 <input type='text' placeholder='Seconds before 10 Minutes' className="label" onChange={e => this.handleDelayChange(e)}></input>
                 <input type='checkbox' id='notify' name='notify' label='Notify For Tap?' onChange={e => this.onCheck(e)}/>
                 <label for="notify">Notify?</label>
@@ -72,6 +72,7 @@ export default class Timer extends React.Component {
                     verticalCompact={true}
                     width={4000}
                     rowHeight={150}
+                    autoSize={true}
                 >  
                     {_.map(this.state.timers, timer => {
                         return timer;
