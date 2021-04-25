@@ -1,0 +1,23 @@
+.textField {
+    align-self: center;
+    display: block;
+}
+
+.login {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loginButton {
+    background-color: #555555;
+    border: none;
+    color: white;
+    padding-top: 5px;
+    padding: 12px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}

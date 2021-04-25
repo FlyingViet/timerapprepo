@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import Timer from './Pages/Timer';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Timer />
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );
