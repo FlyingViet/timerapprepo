@@ -1,6 +1,5 @@
 import React from 'react';
 import LoginBox from '../Components/loginbox'
-import Timer from './Timer';
 import Timer2 from './Timer2';
 
 export default function Login(){

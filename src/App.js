@@ -1,5 +1,4 @@
 import React from 'react';
-import Timer from './Pages/Timer';
 import Timer2 from './Pages/Timer2';
 import {
   BrowserRouter as Router,
@@ -7,12 +6,11 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import Login from './Pages/login';
 import './App.css';
 
-function handleLogout() {
-  localStorage.removeItem('login');
-}
+// function handleLogout() {
+//   localStorage.removeItem('login');
+// }
 
 function App() {
   return (
