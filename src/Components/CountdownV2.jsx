@@ -3,7 +3,7 @@ import swal from 'sweetalert2';
 import cron from 'node-schedule';
 import * as workerTimers from 'worker-timers';
 import "../App.css";
-
+import ding from '../Sounds/ding.mp3';
 
 
 export default class CountdownV2 extends Component {
@@ -27,7 +27,7 @@ export default class CountdownV2 extends Component {
                 timer: 2000,
                 imageUrl: 'https://i.imgur.com/acowcCb.png',
                 onOpen: () => {
-                  var sound = new Audio('http://limonte.github.io/mp3/zippi.mp3');
+                  var sound = new Audio(ding);
                   sound.play();
                 }
               });
