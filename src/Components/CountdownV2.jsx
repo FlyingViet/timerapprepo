@@ -10,27 +10,56 @@ export default class CountdownV2 extends Component {
         timerOn: false,
         timerStart: 0,
         timerTime: 0,
-        timerEnd: 0
+        timerEnd: 0,
+        notify: this.props.notify || false
+    };
+
+    fireSwal = () => {
+        swal.fire({
+            title: `${this.props.name} needs a tap`,
+            confirmButtonText: 'OK',
+            timer: 2000,
+            imageUrl: 'https://i.imgur.com/acowcCb.png',
+            onOpen: () => {
+                var sound = new Audio(ding);
+                sound.play();
+            }
+        });
+    };
+
+    startCron = () => {
+        const delayMs = parseInt(this.props.delay, 10) * 1000;
+        if (delayMs <= 0) return;
+
+        // Align to the original start time so toggling off/on doesn't shift notifications
+        const wallClockStart = this.state.timerEnd - this.state.timerStart;
+        const elapsed = Date.now() - wallClockStart;
+        const timeUntilNext = delayMs - (elapsed % delayMs);
+
+        this.cronTimeout = workerTimers.setTimeout(() => {
+            this.fireSwal();
+            this.cron = workerTimers.setInterval(this.fireSwal, delayMs);
+        }, timeUntilNext);
+    };
+
+    stopCron = () => {
+        if (this.cronTimeout !== undefined) { workerTimers.clearTimeout(this.cronTimeout); this.cronTimeout = undefined; }
+        if (this.cron !== undefined) { workerTimers.clearInterval(this.cron); this.cron = undefined; }
+    };
+
+    toggleNotify = () => {
+        const next = !this.state.notify;
+        this.setState({ notify: next });
+        if (this.state.timerOn) {
+            if (next) this.startCron();
+            else this.stopCron();
+        }
     };
 
     startTimer = () => {
         if(this.state.timerOn) return;
         if(this.state.timerTime === 0) return;
-        const delayMs = parseInt(this.props.delay, 10) * 1000;
-        if(this.props.notify && delayMs > 0){
-          this.cron = workerTimers.setInterval(() => {
-            swal.fire({
-                title: `${this.props.name} needs a tap`,
-                confirmButtonText: 'OK',
-                timer: 2000,
-                imageUrl: 'https://i.imgur.com/acowcCb.png',
-                onOpen: () => {
-                  var sound = new Audio(ding);
-                  sound.play();
-                }
-              });
-        }, delayMs);
-        }
+        if(this.state.notify) this.startCron();
         this.setState({
           timerOn: true,
           timerTime: this.state.timerTime,
@@ -40,14 +69,11 @@ export default class CountdownV2 extends Component {
 
         this.timer = workerTimers.setInterval(() => {
           const newTime = this.state.timerEnd - Date.now();
-
           if (newTime >= 0) {
-            this.setState({
-              timerTime: newTime
-            });
+            this.setState({ timerTime: newTime });
           } else {
-            workerTimers.clearInterval(this.timer);
-            workerTimers.clearInterval(this.cron);
+            if (this.timer !== undefined) { workerTimers.clearInterval(this.timer); this.timer = undefined; }
+            this.stopCron();
             this.setState({ timerOn: false });
             swal.fire({
               title: `${this.props.name} has finished`,
@@ -56,16 +82,16 @@ export default class CountdownV2 extends Component {
             });
           }
         }, 1);
-      };
+    };
 
-      stopTimer = () => {
+    stopTimer = () => {
         if(!this.state.timerOn) return;
         if (this.timer !== undefined) { workerTimers.clearInterval(this.timer); this.timer = undefined; }
-        if (this.cron !== undefined) { workerTimers.clearInterval(this.cron); this.cron = undefined; }
+        this.stopCron();
         this.setState({ timerOn: false });
-      };
+    };
 
-      adjustTimer = input => {
+    adjustTimer = input => {
         const { timerTime, timerOn } = this.state;
         const max = 216000000;
         if (!timerOn) {
@@ -83,22 +109,20 @@ export default class CountdownV2 extends Component {
             this.setState({ timerTime: timerTime - 1000 });
           }
         }
-      };
+    };
 
-      remove = () => {
+    remove = () => {
         if (this.timer !== undefined) { workerTimers.clearInterval(this.timer); this.timer = undefined; }
-        if (this.cron !== undefined) { workerTimers.clearInterval(this.cron); this.cron = undefined; }
-        this.setState({timerOn: false});
+        this.stopCron();
+        this.setState({ timerOn: false });
         this.props.remove(this.props.num);
-    }
+    };
 
   render() {
-    const { timerTime, timerOn } = this.state;
+    const { timerTime, timerOn, notify } = this.state;
     let seconds = ("0" + (Math.floor((timerTime / 1000) % 60) % 60)).slice(-2);
     let minutes = ("0" + Math.floor((timerTime / 60000) % 60)).slice(-2);
     let hours = ("0" + Math.floor((timerTime / 3600000) % 60)).slice(-2);
-
-    const hasHeader = this.props.name || this.props.map || this.props.channel;
 
     return (
       <div className="Countdown">
@@ -144,6 +168,13 @@ export default class CountdownV2 extends Component {
             onClick={timerOn ? this.stopTimer : this.startTimer}
           >
             {timerOn ? "Stop" : "Start"}
+          </button>
+          <button
+            className={notify ? "btn-notify-on" : "btn-notify-off"}
+            onClick={this.toggleNotify}
+            title={notify ? "Notifications on" : "Notifications off"}
+          >
+            {notify ? "🔔" : "🔕"}
           </button>
         </div>
       </div>

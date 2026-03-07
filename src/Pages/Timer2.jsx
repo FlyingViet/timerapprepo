@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Countdown from '../Components/CountdownV2';
 import _ from 'lodash';
 import GridLayout, { WidthProvider } from 'react-grid-layout';
@@ -122,54 +122,16 @@ export default function Timer2() {
         setLayout(newLayout);
     }
 
+    const handleAdd = () => {
+        onAdd();
+        setModalOpen(false);
+    }
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const mouseDownOnOverlay = useRef(false);
+
     return (
         <div>
-            <div className="add-timer-bar">
-                <input
-                    type='text'
-                    placeholder='Name'
-                    maxLength={12}
-                    onChange={e => setName(e.target.value)}
-                />
-                <input
-                    type='text'
-                    placeholder='Map'
-                    onChange={e => setMap(e.target.value)}
-                />
-                <input
-                    type='text'
-                    placeholder='Ch'
-                    maxLength={2}
-                    className="input-sm"
-                    onChange={e => setChannel(e.target.value)}
-                />
-                <div className="delay-input">
-                    <span className="delay-label">Notify every</span>
-                    <input
-                        type='number'
-                        placeholder='0'
-                        min='0'
-                        max='9'
-                        className="input-time"
-                        onChange={e => setDelayMin(e.target.value)}
-                    />
-                    <span className="delay-colon">:</span>
-                    <input
-                        type='number'
-                        placeholder='20'
-                        min='0'
-                        max='59'
-                        className="input-time"
-                        onChange={e => setDelaySec(e.target.value)}
-                    />
-                </div>
-                <label className="notify-label">
-                    <input type='checkbox' onChange={() => setNotify(n => !n)} />
-                    Notify?
-                </label>
-                <button className="btn-add" onClick={onAdd}>+ Add Timer</button>
-            </div>
-
             <ResponsiveGrid
                 className="timer-grid-layout"
                 layout={layout}
@@ -182,6 +144,76 @@ export default function Timer2() {
             >
                 {_.map(timers, timer => timer)}
             </ResponsiveGrid>
+
+            <button className="fab" onClick={() => setModalOpen(true)} title="Add timer">+</button>
+
+            {modalOpen && (
+                <div
+                    className="modal-overlay"
+                    onMouseDown={e => { mouseDownOnOverlay.current = e.target === e.currentTarget; }}
+                    onClick={() => { if (mouseDownOnOverlay.current) setModalOpen(false); }}
+                >
+                    <div className="modal" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2 className="modal-title">New Timer</h2>
+                            <button className="btn-close modal-close" onClick={() => setModalOpen(false)}>✕</button>
+                        </div>
+                        <div className="modal-body">
+                            <label className="modal-label">Name</label>
+                            <input
+                                type='text'
+                                placeholder='e.g. Zakum'
+                                maxLength={12}
+                                className="modal-input"
+                                onChange={e => setName(e.target.value)}
+                            />
+                            <label className="modal-label">Map</label>
+                            <input
+                                type='text'
+                                placeholder='e.g. Dungeon'
+                                className="modal-input"
+                                onChange={e => setMap(e.target.value)}
+                            />
+                            <label className="modal-label">Channel</label>
+                            <input
+                                type='text'
+                                placeholder='e.g. 1'
+                                maxLength={2}
+                                className="modal-input"
+                                onChange={e => setChannel(e.target.value)}
+                            />
+                            <label className="modal-label">Notify every</label>
+                            <div className="delay-input">
+                                <input
+                                    type='number'
+                                    placeholder='0'
+                                    min='0'
+                                    max='9'
+                                    className="modal-input input-time"
+                                    onChange={e => setDelayMin(e.target.value)}
+                                />
+                                <span className="delay-colon">:</span>
+                                <input
+                                    type='number'
+                                    placeholder='20'
+                                    min='0'
+                                    max='59'
+                                    className="modal-input input-time"
+                                    onChange={e => setDelaySec(e.target.value)}
+                                />
+                                <span className="delay-label">mm : ss</span>
+                            </div>
+                            <label className="notify-label">
+                                <input type='checkbox' onChange={() => setNotify(n => !n)} />
+                                Notify?
+                            </label>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="btn-add" onClick={handleAdd}>Add Timer</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

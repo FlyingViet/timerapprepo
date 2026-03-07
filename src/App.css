@@ -281,51 +281,160 @@ button.btn-add:hover { background-color: var(--accent-hover); }
   flex-wrap: wrap;
 }
 
+.btn-notify-on,
+.btn-notify-off {
+  background: none;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.btn-notify-on {
+  border-color: var(--accent);
+  background: rgba(88,166,255,0.1);
+}
+
+.btn-notify-on:hover,
+.btn-notify-off:hover {
+  border-color: var(--accent);
+  opacity: 1;
+}
+
 /* ── Timer list ──────────────────────────────────────── */
 .timerApp {
   display: block;
   height: 100%;
 }
 
-/* ── Add timer form ──────────────────────────────────── */
-.add-timer-bar {
+/* ── FAB ─────────────────────────────────────────────── */
+.fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  color: #0d1117;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-  padding: 16px 24px;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  padding: 0;
+  z-index: 100;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.fab:hover {
+  background-color: var(--accent-hover);
+  transform: scale(1.08);
+  opacity: 1;
+}
+
+/* ── Modal ───────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal {
   background-color: var(--surface);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  width: 340px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
   border-bottom: 1px solid var(--card-border);
 }
 
-.add-timer-bar input[type='text'] {
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.modal-close {
+  position: static;
+  font-size: 14px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px;
+}
+
+.modal-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+.modal-input {
   background-color: var(--card);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
-  padding: 7px 12px;
+  padding: 8px 12px;
   color: var(--text);
   font-size: 14px;
   outline: none;
+  width: 100%;
   transition: border-color 0.15s;
-  width: 160px;
 }
 
-.add-timer-bar input[type='text']:focus {
+.modal-input:focus {
   border-color: var(--accent);
 }
 
-.add-timer-bar input[type='text']::placeholder {
+.modal-input::placeholder {
   color: var(--text-muted);
 }
 
-.add-timer-bar input[type='text'].input-sm {
-  width: 90px;
+.modal-input.input-time {
+  width: 64px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.modal-input.input-time::-webkit-inner-spin-button,
+.modal-input.input-time::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.modal-footer {
+  padding: 12px 20px 16px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--card-border);
 }
 
 .delay-input {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .delay-label {
@@ -339,18 +448,6 @@ button.btn-add:hover { background-color: var(--accent-hover); }
   font-weight: 700;
   color: var(--text-muted);
   line-height: 1;
-}
-
-.add-timer-bar input[type='number'].input-time {
-  width: 52px;
-  text-align: center;
-  padding: 7px 6px;
-  -moz-appearance: textfield;
-}
-
-.add-timer-bar input[type='number'].input-time::-webkit-inner-spin-button,
-.add-timer-bar input[type='number'].input-time::-webkit-outer-spin-button {
-  -webkit-appearance: none;
 }
 
 .notify-label {
