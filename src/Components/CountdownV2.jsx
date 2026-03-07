@@ -105,10 +105,10 @@ export default class CountdownV2 extends Component {
         <button className="btn-close" onClick={this.remove} title="Remove">✕</button>
         <div className="drag-handle" title="Drag to rearrange">
           <span className="drag-dots">⠿</span>
+          {this.props.name && <span className="drag-title">{this.props.name}</span>}
         </div>
-        {hasHeader && (
+        {(this.props.map || this.props.channel) && (
           <div className="Stopwatch-header">
-            {this.props.name && <span className="stopLabel">{this.props.name}</span>}
             {this.props.map && <span className="stopLabel">{this.props.map}</span>}
             {this.props.channel && <span className="stopLabel">Ch {this.props.channel}</span>}
           </div>

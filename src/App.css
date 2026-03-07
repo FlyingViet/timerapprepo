@@ -113,14 +113,26 @@ button.btn-add:hover { background-color: var(--accent-hover); }
 
 /* ── Drag handle ─────────────────────────────────────── */
 .drag-handle {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   cursor: grab;
-  padding: 2px 0 4px;
+  padding: 2px 4px 4px;
   margin: -4px -4px 0;
   border-radius: 8px 8px 0 0;
   color: var(--text-muted);
   transition: color 0.15s, background 0.15s;
+}
+
+.drag-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 140px;
 }
 
 .drag-handle:active {
@@ -136,6 +148,19 @@ button.btn-add:hover { background-color: var(--accent-hover); }
   font-size: 18px;
   line-height: 1;
   user-select: none;
+  justify-self: start;
+}
+
+.drag-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 140px;
+  justify-self: center;
 }
 
 /* react-grid-layout overrides */
@@ -180,6 +205,7 @@ button.btn-add:hover { background-color: var(--accent-hover); }
   background: rgba(248, 81, 73, 0.12);
   opacity: 1;
 }
+
 
 .Stopwatch-header {
   display: flex;
