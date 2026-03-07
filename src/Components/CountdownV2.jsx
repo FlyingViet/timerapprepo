@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import swal from 'sweetalert2';
-import cron from 'node-schedule';
 import * as workerTimers from 'worker-timers';
 import "../App.css";
 import ding from '../Sounds/ding.mp3';
@@ -16,10 +15,9 @@ export default class CountdownV2 extends Component {
 
     startTimer = () => {
         if(this.state.timerOn) return;
-        var rule = new cron.RecurrenceRule();
-        rule.seconds = 10;
-        rule.minutes = 1;
-        if(this.props.notify){
+        if(this.state.timerTime === 0) return;
+        const delayMs = parseInt(this.props.delay, 10) * 1000;
+        if(this.props.notify && delayMs > 0){
           this.cron = workerTimers.setInterval(() => {
             swal.fire({
                 title: `${this.props.name} needs a tap`,
@@ -31,7 +29,7 @@ export default class CountdownV2 extends Component {
                   sound.play();
                 }
               });
-        }, 600000 - parseInt(this.props.delay, 10)*1000);
+        }, delayMs);
         }
         this.setState({
           timerOn: true,
@@ -62,11 +60,11 @@ export default class CountdownV2 extends Component {
 
       stopTimer = () => {
         if(!this.state.timerOn) return;
-        workerTimers.clearInterval(this.timer);
-        workerTimers.clearInterval(this.cron);
+        if (this.timer !== undefined) { workerTimers.clearInterval(this.timer); this.timer = undefined; }
+        if (this.cron !== undefined) { workerTimers.clearInterval(this.cron); this.cron = undefined; }
         this.setState({ timerOn: false });
       };
-      
+
       adjustTimer = input => {
         const { timerTime, timerOn } = this.state;
         const max = 216000000;
@@ -88,69 +86,67 @@ export default class CountdownV2 extends Component {
       };
 
       remove = () => {
+        if (this.timer !== undefined) { workerTimers.clearInterval(this.timer); this.timer = undefined; }
+        if (this.cron !== undefined) { workerTimers.clearInterval(this.cron); this.cron = undefined; }
+        this.setState({timerOn: false});
         this.props.remove(this.props.num);
-        workerTimers.clearInterval(this.timer);
-        workerTimers.clearInterval(this.cron);
-        this.setState({timerOn: false})
-    }
-    renderPt1 = () => {
-      return(
-        <div>
-          <div className="Countdown-label">Hours : Minutes : Seconds</div>
-        <button onClick={() => this.adjustTimer("incHours")}>&#8679;</button>
-        <button onClick={() => this.adjustTimer("incMinutes")}>&#8679;</button>
-        <button onClick={() => this.adjustTimer("incSeconds")}>&#8679;</button>
-      </div>
-      );
     }
 
-    renderPt2 = () => {
-      return(
-        <div>
-          <button onClick={() => this.adjustTimer("decHours")}>&#8681;</button>
-          <button onClick={() => this.adjustTimer("decMinutes")}>&#8681;</button>
-          <button onClick={() => this.adjustTimer("decSeconds")}>&#8681;</button>
-        </div>
-      );
-    }
-    renderHeader = () => {
-      return(
-        <div>
-            <div className="Stopwatch-header">
-            <label type='text' className="stopLabel">{this.props.name}</label>
-            <label type='text' className="stopLabel">{this.props.map}</label>
-            <label type='text' className="stopLabel">{this.props.channel}</label>
-        </div>
-        </div>
-      )
-    }
   render() {
-    const { timerTime } = this.state;
+    const { timerTime, timerOn } = this.state;
     let seconds = ("0" + (Math.floor((timerTime / 1000) % 60) % 60)).slice(-2);
     let minutes = ("0" + Math.floor((timerTime / 60000) % 60)).slice(-2);
     let hours = ("0" + Math.floor((timerTime / 3600000) % 60)).slice(-2);
 
-    return (
-      <center>
-        <div className="Countdown">
+    const hasHeader = this.props.name || this.props.map || this.props.channel;
 
-        {!this.props.name && !this.props.map && !this.props.channel ? null : this.renderHeader()}
+    return (
+      <div className="Countdown">
+        <button className="btn-close" onClick={this.remove} title="Remove">✕</button>
+        <div className="drag-handle" title="Drag to rearrange">
+          <span className="drag-dots">⠿</span>
+        </div>
+        {hasHeader && (
+          <div className="Stopwatch-header">
+            {this.props.name && <span className="stopLabel">{this.props.name}</span>}
+            {this.props.map && <span className="stopLabel">{this.props.map}</span>}
+            {this.props.channel && <span className="stopLabel">Ch {this.props.channel}</span>}
+          </div>
+        )}
 
         <div className="Countdown-display">
+          {!timerOn && (
+            <div className="adjust-row">
+              <button className="btn-adjust" onClick={() => this.adjustTimer("incHours")}>&#8679;</button>
+              <button className="btn-adjust" onClick={() => this.adjustTimer("incMinutes")}>&#8679;</button>
+              <button className="btn-adjust" onClick={() => this.adjustTimer("incSeconds")}>&#8679;</button>
+            </div>
+          )}
 
-        {this.state.timerOn ? null : this.renderPt1()}
-        
-        <div className="Countdown-time">
-          {hours} : {minutes} : {seconds}
+          <div className="Countdown-label">HH &nbsp;: &nbsp;MM &nbsp;: &nbsp;SS</div>
+
+          <div className="Countdown-time">
+            {hours}:{minutes}:{seconds}
+          </div>
+
+          {!timerOn && (
+            <div className="adjust-row">
+              <button className="btn-adjust" onClick={() => this.adjustTimer("decHours")}>&#8681;</button>
+              <button className="btn-adjust" onClick={() => this.adjustTimer("decMinutes")}>&#8681;</button>
+              <button className="btn-adjust" onClick={() => this.adjustTimer("decSeconds")}>&#8681;</button>
+            </div>
+          )}
         </div>
 
-        {this.state.timerOn ? null : this.renderPt2()}
+        <div className="timer-actions">
+          <button
+            className={timerOn ? "btn-stop" : "btn-start"}
+            onClick={timerOn ? this.stopTimer : this.startTimer}
+          >
+            {timerOn ? "Stop" : "Start"}
+          </button>
         </div>
-          <button onClick={this.startTimer}>Start</button>
-          <button onClick={this.stopTimer}>Stop</button>
-          <button onClick={this.remove}>Remove</button>
       </div>
-      </center>
     );
   }
 }

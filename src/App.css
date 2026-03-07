@@ -1,185 +1,362 @@
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --card: #1c2333;
+  --card-border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79baff;
+  --green: #3fb950;
+  --green-hover: #56d364;
+  --red: #f85149;
+  --red-hover: #ff7b72;
+  --yellow: #d29922;
+  --radius: 8px;
+  --font-mono: 'Courier New', Courier, monospace;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Nav ─────────────────────────────────────────────── */
+nav {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--card-border);
+  padding: 0 24px;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 56px;
+  padding: 0;
+  margin: 0;
+}
+
+li a {
+  display: block;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.15s, background 0.15s;
+}
+
+li a:hover {
+  color: var(--text);
+  background-color: rgba(255,255,255,0.06);
+}
+
+.nav {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+/* ── Buttons ─────────────────────────────────────────── */
+button {
+  border: none;
+  border-radius: var(--radius);
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+  background-color: var(--card-border);
+  color: var(--text);
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+button.btn-start {
+  background-color: var(--green);
+  color: #0d1117;
+}
+button.btn-start:hover { background-color: var(--green-hover); }
+
+button.btn-stop {
+  background-color: var(--yellow);
+  color: #0d1117;
+}
+button.btn-stop:hover { background-color: #e3a820; }
+
+button.btn-remove {
+  background-color: var(--red);
+  color: #fff;
+}
+button.btn-remove:hover { background-color: var(--red-hover); }
+
+button.btn-add {
+  background-color: var(--accent);
+  color: #0d1117;
+  padding: 8px 24px;
+}
+button.btn-add:hover { background-color: var(--accent-hover); }
+
+/* ── Drag handle ─────────────────────────────────────── */
+.drag-handle {
+  display: flex;
+  justify-content: center;
+  cursor: grab;
+  padding: 2px 0 4px;
+  margin: -4px -4px 0;
+  border-radius: 8px 8px 0 0;
+  color: var(--text-muted);
+  transition: color 0.15s, background 0.15s;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.drag-handle:hover {
+  color: var(--accent);
+  background: rgba(88,166,255,0.06);
+}
+
+.drag-dots {
+  font-size: 18px;
+  line-height: 1;
+  user-select: none;
+}
+
+/* react-grid-layout overrides */
+.timer-grid-layout .react-grid-item.react-grid-placeholder {
+  background: rgba(88,166,255,0.15);
+  border: 1px dashed var(--accent);
+  border-radius: 12px;
+  opacity: 1;
+}
+
+/* ── Countdown card ──────────────────────────────────── */
+.Countdown {
+  position: relative;
+  background-color: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 10px 14px 12px;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.btn-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 2px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+}
+
+.btn-close:hover {
+  color: var(--red);
+  background: rgba(248, 81, 73, 0.12);
+  opacity: 1;
+}
+
+.Stopwatch-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.stopLabel {
+  background-color: rgba(88,166,255,0.12);
+  color: var(--accent);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Countdown-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.Countdown-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.Countdown-time {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  line-height: 1;
+}
+
+.adjust-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.btn-adjust {
+  background: none;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 16px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-adjust:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  opacity: 1;
+}
+
+.timer-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Timer list ──────────────────────────────────────── */
+.timerApp {
+  display: block;
+  height: 100%;
+}
+
+/* ── Add timer form ──────────────────────────────────── */
+.add-timer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 24px;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.add-timer-bar input[type='text'] {
+  background-color: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 7px 12px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 160px;
+}
+
+.add-timer-bar input[type='text']:focus {
+  border-color: var(--accent);
+}
+
+.add-timer-bar input[type='text']::placeholder {
+  color: var(--text-muted);
+}
+
+.add-timer-bar input[type='text'].input-sm {
+  width: 90px;
+}
+
+.delay-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.delay-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.delay-colon {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.add-timer-bar input[type='number'].input-time {
+  width: 52px;
+  text-align: center;
+  padding: 7px 6px;
+  -moz-appearance: textfield;
+}
+
+.add-timer-bar input[type='number'].input-time::-webkit-inner-spin-button,
+.add-timer-bar input[type='number'].input-time::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.notify-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.notify-label input[type='checkbox'] {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* ── Misc ────────────────────────────────────────────── */
 .App {
   text-align: center;
-  font-family: Helvetica, sans-serif;
-  background-color: rgb(34, 34, 34);
-  height: 100vh;
-  color: rgb(250, 250, 250);
+  background-color: var(--bg);
+  min-height: 100vh;
 }
+
 .App-title {
   font-size: 50px;
   padding: 25px 0;
 }
 
-.Timers {
-  display: flex;
-  justify-content: center;
-}
-@media (max-width: 900px) {
-  .Timers {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-@media (max-width: 900px) {
-  .Stopwatch {
-    margin-bottom: 40px;
-  }
-}
-.Countdown,
-.Stopwatch {
-  margin-left: 10px;
-  margin-right: 10px;
-  border: 2px solid grey;
-  border-radius: 4px;
-  padding: 5px;
-  width: auto;
-  background-color: rgb(41, 53, 63);
-  box-shadow: 0 3px 6px rgb(12, 12, 12);
-  color: white;
-}
-.Countdown {
-  padding-top: 5px;
-}
-
-.Countdown-header,
-.Stopwatch-header {
-  font-size: 30px;
-  font-weight: bold;
-  color: white;
-}
-
-button {
-  background-color: #202b33;
-  border: solid 1px transparent;
-  border-radius: 4px;
-  padding: 10px 20px;
-  color: #ffffff;
-  font-size: 16px;
-  margin: 0 5px;
-  cursor: pointer;
-  display: inline;
-}
-button:hover {
-  background-color: #106ba3;
-}
-.Stopwatch button {
-  padding: 12px 32px;
-  font-size: 20px;
-}
-.label {
-  display: inline-block;
-  height: 30px;
-  font-size: 20px;
-  width: 20%;
-  padding: 5px;
-}
-
-.stopLabel {
-  display: inline-block;
-  height: 30px;
-  font-size: 20px;
-  width: 30%;
-  padding: 5px;
-}
-
-.Stopwatch-display {
-  padding: 40px 0;
-  font-size: 48px;
-}
-.Stopwatch-text {
-}
-.Countdown-display {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-.Countdown-display button {
-  margin: 0 15px;
-  border: solid 1px transparent;
-  border-radius: 1px;
-  padding: 4px 4px;
-  color: #ffffff;
-
-  font-size: 16px;
-}
-.Countdown-display button:hover {
-  background-color: #106ba3;
-}
-.Countdown-label {
-  font-size: 18px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
-.Countdown-time {
-  font-size: 30px;
-  margin: 5px 0;
-}
-
-.grid {
-  position: relative;
-}
-.item {
-  display: block;
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  margin: 5px;
-  z-index: 1;
-  background: #000;
-  color: #fff;
-}
-.item.muuri-item-dragging {
-  z-index: 3;
-}
-.item.muuri-item-releasing {
-  z-index: 2;
-}
-.item.muuri-item-hidden {
-  z-index: 0;
-}
-.item-content {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-}
-
-li {
-  float: left;
-}
-
-li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-/* Change the link color to #111 (black) on hover */
-li a:hover {
-  background-color: #111;
-}
-
 .active {
-  background-color: #4CAF50;
-}
-
-.nav {
-  display: block;
-  color: white;
-  text-align: right;
-  padding: 14px 16px;
-  text-decoration: none;
+  background-color: var(--accent);
+  color: #0d1117;
 }

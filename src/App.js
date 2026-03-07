@@ -1,16 +1,7 @@
 import React from 'react';
 import Timer2 from './Pages/Timer2';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './App.css';
-
-// function handleLogout() {
-//   localStorage.removeItem('login');
-// }
 
 function App() {
   return (
@@ -18,15 +9,7 @@ function App() {
       <div>
         <nav>
           <ul>
-            {/* <li>
-              <Link to="/">Login</Link>
-            </li> */}
-            <li>
-              <Link to="/Timer">Timer</Link>
-            </li>
-            {/* <Link className='nav' onClick={handleLogout} to="/">
-              Logout
-            </Link> */}
+            <li><Link to="/Timer">Timers</Link></li>
           </ul>
         </nav>
 
